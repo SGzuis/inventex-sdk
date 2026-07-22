@@ -1,0 +1,42 @@
+{
+    "name": "bootstech/inventex-sdk",
+    "description": "SDK PHP oficial para integração com a API do Inventex — clientes fluentes, assinatura HMAC de requisições e verificação de webhooks. Funciona em qualquer projeto PHP 7.2+ e se integra nativamente ao Laravel 5.5+ (service provider, config publicável, facade).",
+    "type": "library",
+    "license": "proprietary",
+    "keywords": ["inventex", "sdk", "inventory", "webhook", "hmac", "laravel"],
+    "require": {
+        "php": "^7.2.5 || ^8.0",
+        "guzzlehttp/guzzle": "^6.3 || ^7.0",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.0",
+        "illuminate/support": ">=5.5 <13.0"
+    },
+    "suggest": {
+        "illuminate/support": "Necessário apenas para usar a integração Laravel (InventexServiceProvider, facade Inventex) — qualquer versão de Laravel 5.5 em diante."
+    },
+    "autoload": {
+        "psr-4": {
+            "Bootstech\\InventexSdk\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Bootstech\\InventexSdk\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Bootstech\\InventexSdk\\Laravel\\InventexServiceProvider"
+            ],
+            "aliases": {
+                "Inventex": "Bootstech\\InventexSdk\\Laravel\\Facades\\Inventex"
+            }
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    }
+}
