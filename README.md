@@ -19,8 +19,37 @@ são posicionais.
 
 ## Instalação
 
+Este pacote não está publicado no Packagist — o Composer não encontra
+`bootstech/inventex-sdk` sozinho. Aponte para o repositório Git direto no
+`composer.json` do seu projeto usando um repositório do tipo `vcs`:
+
+```json
+{
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/SGzuis/inventex-sdk.git"
+        }
+    ]
+}
+```
+
+Depois disso, `composer require` funciona normalmente:
+
 ```bash
-composer require bootstech/inventex-sdk
+composer require bootstech/inventex-sdk:^1.0
+```
+
+O Composer vai buscar as tags do repositório (ex.: `v1.0.0`) para resolver a
+versão — sempre trave numa versão/tag específica em produção (`^1.0`, `~1.0.0`,
+ou até a tag exata `dev-main` só para testes locais), já que não há Packagist
+mediando releases aqui.
+
+Se preferir sem editar o `composer.json` na mão:
+
+```bash
+composer config repositories.inventex-sdk vcs https://github.com/SGzuis/inventex-sdk.git
+composer require bootstech/inventex-sdk:^1.0
 ```
 
 ## Configuração
