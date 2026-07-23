@@ -179,7 +179,7 @@ $position->products()->store('7891000000099');
 
 $position->products()->item($itemUuid)->count()
     ->quantity(10)
-    ->lot('L2026-01')
+    ->variations(['lote' => 'L2026-01']) // variação dinâmica — chaves definidas por inventário
     ->send();
 ```
 

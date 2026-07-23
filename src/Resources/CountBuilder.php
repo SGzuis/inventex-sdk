@@ -12,8 +12,7 @@ use Bootstech\InventexSdk\Http\Connector;
  *
  *   $position->products()->item($itemUuid)->count()
  *       ->quantity(10)
- *       ->lot('L2026-01')
- *       ->variations(['cor' => 'azul'])
+ *       ->variations(['lote' => 'L2026-01', 'cor' => 'azul'])
  *       ->send();
  */
 final class CountBuilder
@@ -57,15 +56,11 @@ final class CountBuilder
         return $this;
     }
 
-    public function lot(string $lot): self
-    {
-        $this->payload['lot'] = $lot;
-
-        return $this;
-    }
-
     /**
-     * @param  array<string, string>  $variations
+     * @param  array<string, string>  $variations  Chaves definidas dinamicamente por
+     *                                              inventário (ex.: 'lote', 'cor') — não
+     *                                              existe campo fixo de lote na API, é
+     *                                              só mais uma variação configurável.
      */
     public function variations(array $variations): self
     {

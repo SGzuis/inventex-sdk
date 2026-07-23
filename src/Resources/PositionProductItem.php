@@ -12,7 +12,7 @@ use Bootstech\InventexSdk\Http\Connector;
  * Um item de catálogo dentro de uma posição:
  *
  *   $item->show();
- *   $item->count()->quantity(10)->lot('L123')->send();
+ *   $item->count()->quantity(10)->variations(['lote' => 'L123'])->send();
  */
 final class PositionProductItem
 {
