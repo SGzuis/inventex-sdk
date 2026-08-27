@@ -128,18 +128,22 @@ final class InventoryBuilder
     }
 
     /**
+     * Adiciona vários itens de uma vez (array já pronto) — combina com
+     * item(), pode ser chamado antes ou depois dele sem sobrescrever o que
+     * já foi adicionado.
+     *
      * @param  list<array<string, mixed>>  $items
      */
-    public function items(array $items): self
+    public function addMany(array $items): self
     {
-        $this->payload['items'] = $items;
+        $this->payload['items'] = array_merge(isset($this->payload['items']) ? $this->payload['items'] : [], $items);
 
         return $this;
     }
 
     /**
      * Adiciona um item individualmente — alternativa a montar o array inteiro
-     * via items() quando os itens são conhecidos aos poucos.
+     * via addMany() quando os itens são conhecidos aos poucos.
      */
     public function item(string $position, ?string $product = null, ?string $quantity = null, ?array $variations = null): self
     {

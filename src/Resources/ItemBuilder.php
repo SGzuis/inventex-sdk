@@ -17,6 +17,10 @@ use Bootstech\InventexSdk\Support\Payload;
  *       ->item('A2', '7891000000002', null, '5')
  *       ->send();
  *
+ * Ou passando um array já pronto:
+ *
+ *   $inventory->items()->store()->addMany($items)->send();
+ *
  * Assinatura de item(): (position, product, productDescription, quantity, variations).
  */
 final class ItemBuilder
@@ -52,7 +56,7 @@ final class ItemBuilder
     /**
      * @param  list<array<string, mixed>>  $items
      */
-    public function items(array $items): self
+    public function addMany(array $items): self
     {
         $this->items = array_merge($this->items, $items);
 

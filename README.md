@@ -210,6 +210,13 @@ $inventory->items()->store()
     ->item('A2', '7891000000002', null, '5')
     ->send();
 
+// ou passando um array já pronto (útil pra lotes grandes/gerados dinamicamente)
+$items = [
+    ['position' => 'A1', 'product' => '7891000000001', 'product_quantity' => '10'],
+    ['position' => 'A2', 'product' => '7891000000002', 'product_quantity' => '5'],
+];
+$inventory->items()->store()->addMany($items)->send();
+
 // update(position, product, productDescription, quantity)
 $inventory->items()->find($itemUuid)->update('A1', '7891000000001', null, '20');
 $inventory->items()->find($itemUuid)->delete();
