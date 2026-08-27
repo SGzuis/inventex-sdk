@@ -84,9 +84,14 @@ final class InventoryBuilder
         return $this;
     }
 
-    public function onlyMentionDifferences(bool $enabled = true): self
+    /**
+     * Padrão do sistema (desligado): item que bateu com a contagem anterior
+     * não volta a ser pedido nas próximas rodadas. Ligue para forçar
+     * recontagem de tudo, mesmo o que já bateu.
+     */
+    public function requireFullRecount(bool $enabled = true): self
     {
-        $this->payload['only_mention_differences'] = $enabled;
+        $this->payload['require_full_recount'] = $enabled;
 
         return $this;
     }

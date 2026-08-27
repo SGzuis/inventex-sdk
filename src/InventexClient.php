@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace Bootstech\InventexSdk;
 
 use Bootstech\InventexSdk\Http\Connector;
-use Bootstech\InventexSdk\Resources\ActivityResource;
+use Bootstech\InventexSdk\Resources\AuthResource;
 use Bootstech\InventexSdk\Resources\InventoryResource;
 use Bootstech\InventexSdk\Resources\RawResource;
-use Bootstech\InventexSdk\Resources\UserResource;
-use Bootstech\InventexSdk\Resources\WorkspaceResource;
 use Bootstech\InventexSdk\Webhooks\WebhookVerifier;
 use GuzzleHttp\Client;
 use InvalidArgumentException;
@@ -25,8 +23,8 @@ use InvalidArgumentException;
  *   );
  *
  *   $client->inventories()->create()->name('Loja Centro')->date('2026-08-01')->send();
- *   $client->inventories()->find($uuid)->start();
- *   $client->workspace()->get();
+ *   $client->inventories()->find($uuid)->show();
+ *   $client->auth()->login('bruno@example.com', 'senha-forte');
  *
  * Para verificar webhooks recebidos, use webhookVerifier() com o mesmo
  * segredo (não precisa de InventexClient para isso).
@@ -74,19 +72,9 @@ final class InventexClient
         return new InventoryResource($this->connector);
     }
 
-    public function workspace(): WorkspaceResource
+    public function auth(): AuthResource
     {
-        return new WorkspaceResource($this->connector);
-    }
-
-    public function users(): UserResource
-    {
-        return new UserResource($this->connector);
-    }
-
-    public function activities(): ActivityResource
-    {
-        return new ActivityResource($this->connector);
+        return new AuthResource($this->connector);
     }
 
     /**

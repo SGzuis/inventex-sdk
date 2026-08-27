@@ -7,15 +7,13 @@ namespace Bootstech\InventexSdk\Resources;
 use Bootstech\InventexSdk\Http\ApiPath;
 use Bootstech\InventexSdk\Http\ApiResponse;
 use Bootstech\InventexSdk\Http\Connector;
-use Bootstech\InventexSdk\Support\Payload;
 
 /**
  * Referência fluente a um inventário já identificado (por uuid) — encadeia
- * transições de estado e sub-recursos sem precisar repassar o uuid a cada
- * chamada:
+ * ações e sub-recursos sem precisar repassar o uuid a cada chamada:
  *
- *   $client->inventories()->find($uuid)->start();
- *   $client->inventories()->find($uuid)->positions()->list()->get();
+ *   $client->inventories()->find($uuid)->show();
+ *   $client->inventories()->find($uuid)->items()->list();
  */
 final class Inventory
 {
@@ -78,64 +76,14 @@ final class Inventory
         return $this->connector->delete($this->path()->toString());
     }
 
-    public function start(): ApiResponse
-    {
-        return $this->connector->post($this->path()->append('state/start')->toString());
-    }
-
-    /**
-     * ATENÇÃO: hoje o endpoint `state/conclude` da API ignora completamente
-     * o campo `force` — o servidor sempre conclui forçadamente (equivalente
-     * a $force = true), mesmo se você passar false. O parâmetro é enviado
-     * mesmo assim por compatibilidade futura, mas na prática `conclude(false)`
-     * se comporta exatamente igual a `conclude(true)` até que a API passe a
-     * respeitar esse campo. Não existe hoje, via API, uma forma de concluir
-     * apenas a rodada atual e manter o inventário em IN_PROGRESS para uma
-     * segunda contagem.
-     */
-    public function conclude(bool $force = true): ApiResponse
-    {
-        return $this->connector->post($this->path()->append('state/conclude')->toString(), ['force' => $force]);
-    }
-
-    public function interrupt(?int $userId = null): ApiResponse
-    {
-        return $this->connector->post($this->path()->append('state/interrupt')->toString(), Payload::withoutNulls(['user_id' => $userId]));
-    }
-
-    public function cancel(): ApiResponse
-    {
-        return $this->connector->post($this->path()->append('state/cancel')->toString());
-    }
-
-    public function export(): ApiResponse
-    {
-        return $this->connector->get($this->path()->append('export')->toString());
-    }
-
     public function activities(): ApiResponse
     {
         return $this->connector->get($this->path()->append('activities')->toString());
     }
 
-    public function positions(): PositionResource
-    {
-        return new PositionResource($this->connector, $this->uuid);
-    }
-
-    public function operators(): OperatorResource
-    {
-        return new OperatorResource($this->connector, $this->uuid);
-    }
-
     public function items(): ItemResource
     {
         return new ItemResource($this->connector, $this->uuid);
-    }
-
-    public function import(): ImportResource
-    {
-        return new ImportResource($this->connector, $this->uuid);
     }
 
     private function path(): ApiPath

@@ -51,27 +51,15 @@ class UrlSegmentEncodingTest extends TestCase
         $this->assertStringNotContainsString('/admin/secrets', $uri);
     }
 
-    public function test_a_malicious_position_uuid_cannot_escape_the_api_path_prefix(): void
+    public function test_a_malicious_item_uuid_cannot_escape_the_api_path_prefix(): void
     {
         $history = [];
         $client = $this->clientWithHandler(new MockHandler([$this->okResponse()]), $history);
 
-        $client->inventories()->find('abc')->positions()->find('../../evil')->start();
+        $client->inventories()->find('abc')->items()->find('../../evil')->delete();
 
         $uri = (string) $history[0]['request']->getUri();
-        $this->assertStringStartsWith('https://app.inventex.test/api/inventories/abc/positions/', $uri);
-        $this->assertStringContainsString('%2F', $uri);
-    }
-
-    public function test_a_malicious_user_uuid_cannot_escape_the_api_path_prefix(): void
-    {
-        $history = [];
-        $client = $this->clientWithHandler(new MockHandler([$this->okResponse()]), $history);
-
-        $client->users()->find('../../workspaces')->show();
-
-        $uri = (string) $history[0]['request']->getUri();
-        $this->assertStringStartsWith('https://app.inventex.test/api/users/', $uri);
+        $this->assertStringStartsWith('https://app.inventex.test/api/inventories/abc/items/', $uri);
         $this->assertStringContainsString('%2F', $uri);
     }
 }

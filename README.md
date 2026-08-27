@@ -10,10 +10,16 @@ Por isso o SDK não usa recursos exclusivos do PHP 8 (readonly/promoted
 properties, named arguments, `match`, union types) — todas as chamadas abaixo
 são posicionais.
 
+> **Escopo atual**: a API do Inventex hoje só expõe autenticação e o CRUD de
+> inventários (com o sub-recurso de itens, pensado para lotes grandes —
+> 20k+ itens via múltiplas chamadas de até 1000). Posições, contagem,
+> operadores externos, importação por planilha, workspace e usuários não
+> têm mais endpoint na API — só existem no app Web. Este SDK reflete
+> exatamente essa superfície; builders para os recursos que voltarem a ter
+> endpoint serão adicionados de volta quando isso acontecer.
+
 📄 Documentação técnica aprofundada em [`docs/`](./docs):
 
-- [`docs/operacao.md`](./docs/operacao.md) — máquina de estados de
-  inventário/posição e o fluxo completo de uma contagem ponta a ponta.
 - [`docs/webhooks.md`](./docs/webhooks.md) — formato do payload, assinatura,
   catálogo de eventos, reentrega/idempotência.
 
@@ -118,7 +124,7 @@ class SincronizaInventarioJob implements ShouldQueue
 ```php
 use Bootstech\InventexSdk\Laravel\Facades\Inventex;
 
-Inventex::inventories()->find($uuid)->start();
+Inventex::inventories()->find($uuid)->show();
 ```
 
 Múltiplos workspaces/tokens na mesma aplicação Laravel (ex.: um SaaS que
@@ -127,10 +133,37 @@ de "um token fixo via `.env`" — para instâncias adicionais, construa via
 `InventexClient::make(...)` diretamente com as credenciais de cada cliente,
 sem depender do container.
 
-## Inventários
+## Autenticação
 
-> Fluxo completo (criação → contagem → conclusão) com a máquina de estados
-> explicada: [`docs/operacao.md`](./docs/operacao.md).
+`InventexClient::make()`/config Laravel já autentica o **aplicativo**
+(Bearer token + assinatura HMAC do workspace). `auth()` é outra coisa: login
+de **pessoa** via Sanctum — útil quando o consumidor do SDK precisa logar um
+usuário final (ex.: app mobile) em vez de só operar com o token fixo do
+aplicativo.
+
+```php
+$response = $client->auth()->login('bruno@example.com', 'senha-forte');
+$token = $response->get('token'); // monte um novo client com esse token para as chamadas seguintes
+
+$client->auth()->register([
+    'name' => 'Bruno Henrique',
+    'email' => 'bruno@example.com',
+    'password' => 'senha-forte',
+    'password_confirmation' => 'senha-forte',
+]);
+
+$client->auth()->user();
+$client->auth()->updateProfile('Novo Nome', 'novo@example.com');
+$client->auth()->updatePassword('senha-atual', 'senha-nova');
+$client->auth()->sessions();
+$client->auth()->revokeSession($tokenId);
+$client->auth()->activities();          // atividades da própria conta
+$client->auth()->switchWorkspace($workspaceUuid);
+$client->auth()->deleteAccount();
+$client->auth()->logout();
+```
+
+## Inventários
 
 ```php
 // Criar
@@ -150,40 +183,22 @@ $client->inventories()->list()
     ->search('centro')
     ->get();
 
-// Referenciar um inventário existente e encadear ações
+// Referenciar um inventário existente
 $inventory = $client->inventories()->find($uuid);
-$inventory->start();
-$inventory->conclude();      // força a conclusão da contagem atual
-$inventory->interrupt();     // interrompe as posições ativas do usuário
-$inventory->cancel();
-$inventory->export();
+$inventory->show();
+$inventory->update(['name' => 'Novo nome']);
+$inventory->delete();
 $inventory->activities();
 ```
 
-## Posições e contagem
-
-```php
-$inventory = $client->inventories()->find($uuid);
-
-$inventory->positions()->list();
-$inventory->positions()->search('A1');
-
-$position = $inventory->positions()->find($positionUuid);
-$position->start();
-$position->finish();
-
-$position->products()->search('7891000000001');
-
-// Cadastrar um produto avulso (fora do catálogo esperado) direto na posição
-$position->products()->store('7891000000099');
-
-$position->products()->item($itemUuid)->count()
-    ->quantity(10)
-    ->variations(['lote' => 'L2026-01']) // variação dinâmica — chaves definidas por inventário
-    ->send();
-```
+Início/conclusão/interrupção/cancelamento de contagem, posições e operadores
+externos são operados hoje só pelo app Web — não têm endpoint na API.
 
 ## Catálogo de itens
+
+Endpoint dedicado porque um inventário pode ter 20k+ itens — envie em lotes
+(a API aceita até 1000 itens por requisição, faça múltiplas chamadas para
+volumes maiores):
 
 ```php
 $inventory->items()->list();
@@ -200,47 +215,6 @@ $inventory->items()->find($itemUuid)->update('A1', '7891000000001', null, '20');
 $inventory->items()->find($itemUuid)->delete();
 ```
 
-## Importação por planilha
-
-```php
-// Modelo genérico
-file_put_contents('template.xlsx', $client->inventories()->importTemplate());
-
-// Modelo já ajustado às variações deste inventário
-file_put_contents('template.xlsx', $inventory->import()->template());
-
-// Upload — processamento é assíncrono
-$response = $inventory->import()->upload('/caminho/para/planilha.xlsx');
-$jobId = $response->get('import_job_id');
-
-// Acompanhar o resultado
-$status = $inventory->import()->status($jobId);
-$status->get('status'); // pending | processing | completed | failed
-$status->get('errors'); // lista de erros por linha, se falhou
-```
-
-## Operadores externos (pareamento por QR)
-
-```php
-$inventory->operators()->generateQrToken();
-$inventory->operators()->approve($operatorUuid);
-$inventory->operators()->update($operatorUuid, 'Coletor 1');
-$inventory->operators()->revoke($operatorUuid);
-```
-
-## Workspace, usuários e atividades
-
-```php
-$client->workspace()->get();
-$client->workspace()->updateLocationConfig(['zones' => [...]]);
-
-$client->users()->list()->search('bruno')->get();
-$client->users()->create()->name('Bruno Henrique')->email('bruno@example.com')->password('senha-forte')->send();
-$client->users()->find($uuid)->update(['name' => 'Novo Nome']);
-
-$client->activities()->list()->event('inventory_started')->get();
-```
-
 ## Endpoints ainda não modelados
 
 Todo objeto `ApiResponse` retornado por um builder é a mesma classe usada
@@ -248,16 +222,8 @@ internamente — se precisar de um endpoint sem builder dedicado, use o escape
 hatch, que já passa pela mesma autenticação/assinatura:
 
 ```php
-$client->raw()->get('workspaces/{workspace_uuid}/applications');
-$client->raw()->post('invites/{token}/accept');
+$client->raw()->get('inventories/{inventory_uuid}/activities');
 ```
-
-Ainda não modelados como builder (uso via `raw()`): gestão central de
-workspaces/membros/aplicativos (`/workspaces/*`), convites (`/invites/*`) e
-pareamento do próprio dispositivo do operador (`/operator/register-device`).
-Os endpoints de `/auth/*` (login, sessões, perfil do usuário) ficam fora do
-escopo do SDK de propósito — são autenticação de pessoa logada via Sanctum,
-não de integração de aplicativo parceiro.
 
 ## Tratamento de erros
 
