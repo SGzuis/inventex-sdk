@@ -18,12 +18,24 @@ são posicionais.
 > exatamente essa superfície; builders para os recursos que voltarem a ter
 > endpoint serão adicionados de volta quando isso acontecer.
 
-📄 Documentação técnica aprofundada em [`docs/`](./docs):
+📄 Documentação técnica aprofundada em [`docs/`](./docs) — comece por
+[`docs/getting-started.md`](./docs/getting-started.md) se for a primeira
+vez:
 
+- [`docs/getting-started.md`](./docs/getting-started.md) — contextualização
+  e o que resolver antes de instalar (conta, aplicativo de integração, token).
+- [`docs/installation.md`](./docs/installation.md) — instalação em projeto
+  PHP standalone.
+- [`docs/laravel.md`](./docs/laravel.md) — setup e diretrizes específicas
+  para Laravel.
+- [`docs/inventory/`](./docs/inventory) — uma página por ação de CRUD de
+  inventário (parâmetros, regras de negócio, formato de resposta, erros).
 - [`docs/webhooks.md`](./docs/webhooks.md) — formato do payload, assinatura,
   catálogo de eventos, reentrega/idempotência.
 
 ## Instalação
+
+> Guia completo, com contexto de pré-requisitos: [`docs/getting-started.md`](./docs/getting-started.md) e [`docs/installation.md`](./docs/installation.md).
 
 Este pacote não está publicado no Packagist — o Composer não encontra
 `bootstech/inventex-sdk` sozinho. Aponte para o repositório Git direto no
@@ -84,6 +96,8 @@ aplicação Laravel, veja a seção **Uso no Laravel** abaixo para configurar vi
 `.env`/container em vez de instanciar `InventexClient::make()` na mão.
 
 ## Uso no Laravel
+
+> Guia completo: [`docs/laravel.md`](./docs/laravel.md).
 
 O pacote é auto-discovered — nada para registrar manualmente em
 `bootstrap/providers.php`. Publique o config e preencha o `.env`:
