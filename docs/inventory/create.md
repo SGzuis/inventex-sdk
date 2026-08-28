@@ -18,7 +18,7 @@ Métodos do `InventoryBuilder`, todos encadeáveis, chame só os que precisar:
 | `date(string)` | `date` | ✅ | Formato `Y-m-d`, não pode ser no passado |
 | `countType(string)` | `count_type` | | Rótulo livre (ex.: "Geral", "Cíclico") |
 | `countingNumber(int)` | `counting_number` | | 1 a 3 rodadas de contagem (padrão do servidor: 1) |
-| `showBalance(bool = true)` | `show_balance` | ✅ | Exibe quantidade esperada em tela pro operador |
+| `showBalance(bool = true)` | `show_balance` | | Exibe quantidade esperada em tela pro operador (padrão do servidor: `false`) |
 | `requireFullRecount(bool = true)` | `require_full_recount` | | Padrão desligado: item que bateu não volta a ser pedido nas próximas rodadas. Ligue para forçar recontagem completa sempre |
 | `secondTotalCount(bool = true)` | `second_total_count` | | Força recontagem de tudo especificamente na 2ª rodada, independente de `requireFullRecount` |
 | `allowMultipleUsersPerPosition(bool = true)` | `allow_multiple_users_per_position` | | |
@@ -27,9 +27,7 @@ Métodos do `InventoryBuilder`, todos encadeáveis, chame só os que precisar:
 | `item(position, product?, quantity?, variations?)` | `items[]` | | Adiciona um item; pode chamar várias vezes |
 | `addMany(array)` | `items[]` | | Adiciona vários itens de uma vez (array pronto); combina com `item()` |
 
-`show_balance` é o único booleano obrigatório na criação (servidor exige o
-campo, mesmo que seja `false`) — os demais têm default no servidor se
-omitidos.
+Todos os booleanos têm default no servidor se omitidos.
 
 ### `variations` — schema de variação por item
 
