@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Bootstech\InventexSdk;
 
 use Bootstech\InventexSdk\Http\Connector;
-use Bootstech\InventexSdk\Resources\AuthResource;
 use Bootstech\InventexSdk\Resources\InventoryResource;
 use Bootstech\InventexSdk\Resources\RawResource;
 use Bootstech\InventexSdk\Webhooks\WebhookVerifier;
@@ -24,7 +23,6 @@ use InvalidArgumentException;
  *
  *   $client->inventories()->create()->name('Loja Centro')->date('2026-08-01')->send();
  *   $client->inventories()->find($uuid)->show();
- *   $client->auth()->login('bruno@example.com', 'senha-forte');
  *
  * Para verificar webhooks recebidos, use webhookVerifier() com o mesmo
  * segredo (não precisa de InventexClient para isso).
@@ -70,11 +68,6 @@ final class InventexClient
     public function inventories(): InventoryResource
     {
         return new InventoryResource($this->connector);
-    }
-
-    public function auth(): AuthResource
-    {
-        return new AuthResource($this->connector);
     }
 
     /**

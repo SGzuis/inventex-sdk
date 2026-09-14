@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static \Bootstech\InventexSdk\Resources\InventoryResource inventories()
- * @method static \Bootstech\InventexSdk\Resources\AuthResource auth()
  * @method static \Bootstech\InventexSdk\Resources\RawResource raw()
  *
  * @see \Bootstech\InventexSdk\InventexClient

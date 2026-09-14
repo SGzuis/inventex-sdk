@@ -29,8 +29,8 @@ servidor, formato exato de resposta e erros possíveis.
 
 - [`webhooks.md`](./webhooks.md) — formato do payload, assinatura HMAC,
   catálogo de eventos, reentrega/idempotência.
-- Autenticação (`$client->auth()->...`) e tratamento de erros: seções
-  próprias no [`README`](../README.md) da raiz.
+- Autenticação (token de aplicativo do workspace) e tratamento de erros:
+  seções próprias no [`README`](../README.md) da raiz.
 
 ## Formato de resposta (leia isso antes do resto)
 

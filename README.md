@@ -150,32 +150,10 @@ sem depender do container.
 ## Autenticação
 
 `InventexClient::make()`/config Laravel já autentica o **aplicativo**
-(Bearer token + assinatura HMAC do workspace). `auth()` é outra coisa: login
-de **pessoa** via Sanctum — útil quando o consumidor do SDK precisa logar um
-usuário final (ex.: app mobile) em vez de só operar com o token fixo do
-aplicativo.
-
-```php
-$response = $client->auth()->login('bruno@example.com', 'senha-forte');
-$token = $response->get('token'); // monte um novo client com esse token para as chamadas seguintes
-
-$client->auth()->register([
-    'name' => 'Bruno Henrique',
-    'email' => 'bruno@example.com',
-    'password' => 'senha-forte',
-    'password_confirmation' => 'senha-forte',
-]);
-
-$client->auth()->user();
-$client->auth()->updateProfile('Novo Nome', 'novo@example.com');
-$client->auth()->updatePassword('senha-atual', 'senha-nova');
-$client->auth()->sessions();
-$client->auth()->revokeSession($tokenId);
-$client->auth()->activities();          // atividades da própria conta
-$client->auth()->switchWorkspace($workspaceUuid);
-$client->auth()->deleteAccount();
-$client->auth()->logout();
-```
+(Bearer token + assinatura HMAC do workspace) — essa é a única forma de
+autenticação da API hoje. Não existe login de usuário nem cadastro por essa
+API: o token é gerado no app Web, em **Workspace → Aplicativos → Novo
+aplicativo**, e é fixo a um workspace inteiro (não a uma pessoa).
 
 ## Inventários
 
