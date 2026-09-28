@@ -52,15 +52,20 @@ use Bootstech\InventexSdk\InventexClient;
 $client = InventexClient::make(
     'https://sua-instancia.inventex.com.br/api',
     'SEU_TOKEN_BEARER',
-    'SUA_CHAVE_HMAC' // opcional, mas assina automaticamente quando presente
+    'SUA_CHAVE_HMAC' // exigida pela API em toda requisição, leitura inclusa
 );
 ```
 
 - **`baseUrl`**: inclua o prefixo `/api`.
 - **`token`**: o Bearer gerado no passo de `getting-started.md`.
-- **`signingSecret`**: opcional — sem ele o SDK manda só o Bearer token; se
-  informado, o `Connector` assina cada requisição sozinho (headers
-  `X-Signature`/`X-Timestamp`), você não calcula nada manualmente.
+- **`signingSecret`**: parâmetro opcional na assinatura do construtor, mas a
+  API hoje exige `X-Timestamp`/`X-Signature` em toda requisição autenticada
+  por token de aplicativo — inclusive leituras (`GET /inventories`,
+  `GET /inventories/{uuid}`, `GET /inventories/{uuid}/activities`). Sem
+  `signingSecret`, o `Connector` manda só o Bearer token e a API responde
+  `403` em qualquer chamada. Informe sempre a chave — o `Connector` assina
+  cada requisição sozinho (headers `X-Signature`/`X-Timestamp`), você não
+  calcula nada manualmente.
 
 Alternativa via array de config (útil se você já monta isso a partir de
 `$_ENV` ou de outro lugar centralizado):
@@ -69,7 +74,7 @@ Alternativa via array de config (útil se você já monta isso a partir de
 $client = InventexClient::fromArray([
     'base_url' => $_ENV['INVENTEX_BASE_URL'],
     'token' => $_ENV['INVENTEX_TOKEN'],
-    'signing_secret' => $_ENV['INVENTEX_SIGNING_SECRET'] ?? null, // opcional
+    'signing_secret' => $_ENV['INVENTEX_SIGNING_SECRET'], // obrigatória na prática
     'timeout' => 15, // opcional, default 15s
 ]);
 ```

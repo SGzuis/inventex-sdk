@@ -82,13 +82,15 @@ use Bootstech\InventexSdk\InventexClient;
 $client = InventexClient::make(
     'https://sua-instancia.inventex.com.br/api',
     'SEU_TOKEN_BEARER',
-    'SUA_CHAVE_HMAC' // opcional, mas assina automaticamente quando presente
+    'SUA_CHAVE_HMAC' // exigida pela API em toda requisição, leitura inclusa
 );
 ```
 
-Sem `signingSecret`, o SDK envia só o Bearer token. Se o aplicativo exigir
-assinatura (padrão do sistema), informe a chave — o `Connector` assina cada
-requisição sozinho, você não precisa calcular nada manualmente.
+Sem `signingSecret`, o SDK envia só o Bearer token — e a API responde `403`
+em qualquer chamada, já que hoje exige `X-Timestamp`/`X-Signature` também nas
+leituras (`GET /inventories`, `/inventories/{uuid}`, `/activities`), não só
+nas escritas. Informe sempre a chave: o `Connector` assina cada requisição
+sozinho, você não precisa calcular nada manualmente.
 
 Isso é tudo que um projeto PHP puro (sem framework) precisa — o restante
 deste README funciona igual em qualquer lugar. Se o consumidor for uma

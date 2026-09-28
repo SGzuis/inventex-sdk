@@ -8,9 +8,8 @@ qualquer coisa.
 O Inventex SDK é o cliente PHP oficial para **integrar um sistema externo
 com a API do Inventex** — o SaaS de gerenciamento de inventário/contagem de
 estoque. Ele existe pra quem precisa, de fora do Inventex, criar
-inventários, consultar status, alimentar o catálogo de itens em lote, ou
-autenticar um usuário via API — sem montar requisições HTTP, assinatura HMAC
-e tratamento de erro na mão.
+inventários, consultar status ou alimentar o catálogo de itens em lote — sem
+montar requisições HTTP, assinatura HMAC e tratamento de erro na mão.
 
 > Hoje a API só expõe autenticação e o CRUD de inventários (criar, listar,
 > consultar, atualizar/mudar status, excluir, itens em lote). Fluxo de
@@ -29,9 +28,9 @@ no SDK:
    Aplicativos**, crie um aplicativo. Você recebe, uma única vez (não fica
    mais visível depois):
    - um **token Bearer** — autentica as chamadas;
-   - uma **chave de assinatura HMAC** — opcional, mas é o padrão do sistema
-     assinar cada requisição; sem ela o aplicativo pode não ser aceito
-     dependendo da configuração de segurança do workspace.
+   - uma **chave de assinatura HMAC** — a API exige `X-Timestamp`/`X-Signature`
+     em toda requisição autenticada por token de aplicativo, inclusive
+     leituras; sem ela nenhuma chamada é aceita.
 
    Guarde as duas em algum cofre de segredo do seu projeto (`.env`, secret
    manager) — não tem como recuperá-las depois, só gerar novas.

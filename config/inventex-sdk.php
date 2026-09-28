@@ -27,8 +27,9 @@ return [
     | Chave de assinatura HMAC
     |--------------------------------------------------------------------------
     |
-    | Opcional — se o aplicativo tiver assinatura ativa (padrão do sistema),
-    | informe a chave para que o SDK assine cada requisição automaticamente.
+    | A API exige assinatura HMAC em toda requisição autenticada por token de
+    | aplicativo, inclusive leituras — informe a chave para que o SDK assine
+    | cada requisição automaticamente.
     |
     */
     'signing_secret' => env('INVENTEX_SIGNING_SECRET'),
