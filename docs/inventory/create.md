@@ -27,7 +27,7 @@ Métodos do `InventoryBuilder`, todos encadeáveis, chame só os que precisar:
 | `unitCounting(bool = true)` | `settings.unit_counting.enabled` | | Contagem unitária: cada leitura vale 1 unidade (ex.: chassi). Exige a feature `unit_counting` no workspace, senão `ValidationException` (422) |
 | `monetaryControl(string $valueField)` | `settings.monetary_control` | | Liga o controle monetário usando a variação `$valueField` como valor base |
 | `qualityEnabled(bool = true)` | `quality_enabled` | | Habilita registro de qualidade/avaria na bipagem |
-| `qualityRequiresPhoto(bool = true)` | `quality_requires_photo` | | Foto obrigatória quando há avaria |
+| `qualityRequiresPhoto(bool = true)` | `quality_requires_photo` | | Foto obrigatória em divergência (contado maior ou menor que o previsto) e, na contagem unitária, em caso de avaria. Desligado, a foto é opcional (com `qualityEnabled`) |
 | `qualityTypes(array)` | `quality_types` | | Lista de tipos de avaria aceitos |
 | `item(position, product?, quantity?, variations?)` | `items[]` | | Adiciona um item; pode chamar várias vezes |
 | `addMany(array)` | `items[]` | | Adiciona vários itens de uma vez (array pronto); combina com `item()` |
