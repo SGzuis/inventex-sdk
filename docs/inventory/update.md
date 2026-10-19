@@ -62,7 +62,10 @@ aqui (`sometimes`, não reenvie o que não quer mudar):
 `name`, `description`, `location`, `date`, `count_type`, `counting_number`,
 `require_full_recount`, `second_total_count`, `show_balance`,
 `allow_multiple_users_per_position`, `interrupt_reverts_position`,
-`variations`, `quality_enabled`, `quality_requires_photo`, `quality_types`.
+`variations`, `quality_enabled`, `quality_requires_photo`, `quality_types`,
+`settings` (`settings.unit_counting.enabled`, `settings.monetary_control`).
+Ligar `unit_counting` exige a feature no workspace (422 sem ela); desligar
+sempre vale. Não há builder aqui: envie o array direto.
 
 Alterar o `type` de uma variação que já tem item ou contagem vinculada é
 bloqueado (o `name` da variação continua igual, só o tipo é travado nesse

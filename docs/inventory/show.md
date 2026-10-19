@@ -25,7 +25,8 @@ $response->data()['attributes']['status'];
 ## Resposta
 
 `200 OK` — objeto completo do inventário, incluindo os campos agregados
-(`positions_count`, `completed_positions_count`, `items_count`) e, quando
+(`positions_count`, `completed_positions_count`, `items_count`), `settings`
+(ex.: `settings.unit_counting.enabled`) e `quality_enabled`/`quality_requires_photo`/`quality_types` e, quando
 carregados pelo servidor, `relationships.items`/`relationships.countings`.
 Formato completo: [`../README.md#formato-de-resposta`](../README.md#formato-de-resposta).
 

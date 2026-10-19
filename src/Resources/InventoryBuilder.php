@@ -118,6 +118,56 @@ final class InventoryBuilder
     }
 
     /**
+     * Contagem unitária: cada leitura vale 1 unidade (ex.: chassi de
+     * veículo). Exige a feature `unit_counting` no workspace — sem ela a API
+     * responde 422 (ValidationException).
+     */
+    public function unitCounting(bool $enabled = true): self
+    {
+        $this->payload['settings']['unit_counting'] = ['enabled' => $enabled];
+
+        return $this;
+    }
+
+    /**
+     * Controle monetário: $valueField é o nome da variação usada como valor
+     * monetário base do item (obrigatório quando ligado).
+     */
+    public function monetaryControl(string $valueField): self
+    {
+        $this->payload['settings']['monetary_control'] = [
+            'enabled' => true,
+            'params' => ['value_field' => $valueField],
+        ];
+
+        return $this;
+    }
+
+    public function qualityEnabled(bool $enabled = true): self
+    {
+        $this->payload['quality_enabled'] = $enabled;
+
+        return $this;
+    }
+
+    public function qualityRequiresPhoto(bool $enabled = true): self
+    {
+        $this->payload['quality_requires_photo'] = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * @param  list<string>  $types  Tipos de avaria aceitos na bipagem (máx. 100 caracteres cada)
+     */
+    public function qualityTypes(array $types): self
+    {
+        $this->payload['quality_types'] = array_values($types);
+
+        return $this;
+    }
+
+    /**
      * @param  list<array{name: string, type: string, validate_item: bool}>  $variations
      */
     public function variations(array $variations): self
