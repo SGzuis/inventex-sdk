@@ -81,6 +81,23 @@ final class Inventory
         return $this->connector->get($this->path()->append('activities')->toString());
     }
 
+    /**
+     * Solicita a exportação detalhada (assíncrona) do inventário.
+     *
+     * @param  string  $format  "xlsx" ou "csv"
+     */
+    public function requestExport(string $format = 'xlsx'): Export
+    {
+        $response = $this->connector->post($this->path()->append('exports')->toString(), ['format' => $format]);
+
+        return new Export($this->connector, $this->uuid, (string) $response->get('id'));
+    }
+
+    public function findExport(string $exportId): Export
+    {
+        return new Export($this->connector, $this->uuid, $exportId);
+    }
+
     public function items(): ItemResource
     {
         return new ItemResource($this->connector, $this->uuid);

@@ -24,6 +24,7 @@ servidor, formato exato de resposta e erros possíveis.
 | Excluir | `DELETE /inventories/{uuid}` | [`inventory/delete.md`](./inventory/delete.md) |
 | Itens do catálogo (lote) | `GET/POST/PUT/DELETE /inventories/{uuid}/items` | [`inventory/items.md`](./inventory/items.md) |
 | Atividades | `GET /inventories/{uuid}/activities` | [`inventory/activities.md`](./inventory/activities.md) |
+| Exportar (Excel/CSV) | `POST /inventories/{uuid}/exports` | [`inventory/export.md`](./inventory/export.md) |
 
 ## Outros tópicos
 

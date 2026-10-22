@@ -216,6 +216,18 @@ $inventory->items()->find($itemUuid)->update('A1', '7891000000001', null, '20');
 $inventory->items()->find($itemUuid)->delete();
 ```
 
+## Exportação (Excel / CSV)
+
+A geração é assíncrona: solicite, acompanhe o status e baixe quando concluir
+(detalhes em [`docs/inventory/export.md`](docs/inventory/export.md)):
+
+```php
+$export = $inventory->requestExport('csv'); // 'xlsx' (padrão) ou 'csv'
+
+$export->status()->get('attributes')['status']; // pending|processing|completed|failed|expired
+$export->saveTo('/tmp/inventario.csv');          // ou $export->download() para os bytes
+```
+
 ## Endpoints ainda não modelados
 
 Todo objeto `ApiResponse` retornado por um builder é a mesma classe usada
