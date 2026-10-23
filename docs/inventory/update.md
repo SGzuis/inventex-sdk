@@ -67,6 +67,13 @@ aqui (`sometimes`, não reenvie o que não quer mudar):
 Ligar `unit_counting` exige a feature no workspace (422 sem ela); desligar
 sempre vale. Não há builder aqui: envie o array direto.
 
+`location` **substitui** o valor anterior (não faz merge): envie todos os
+campos que devem permanecer. As chaves são validadas contra o
+`location_config` que o workspace tinha **na criação do inventário**, não o
+atual — chave que existia na criação mas foi removida do workspace depois
+continua válida; chave adicionada depois é rejeitada (`ValidationException`,
+422, erro em `location`).
+
 Alterar o `type` de uma variação que já tem item ou contagem vinculada é
 bloqueado (o `name` da variação continua igual, só o tipo é travado nesse
 caso).

@@ -72,4 +72,12 @@ class InventoryBuilderTest extends TestCase
         $this->assertSame(['avaria', 'risco'], $payload['quality_types']);
         $this->assertArrayNotHasKey('settings', $payload);
     }
+
+    public function test_location_sends_workspace_location_fields_as_is(): void
+    {
+        $payload = $this->sentPayload(static fn (InventoryBuilder $builder) => $builder
+            ->name('Inv')->date('2030-01-01')->location(['branch' => 'Matriz']));
+
+        $this->assertSame(['branch' => 'Matriz'], $payload['location']);
+    }
 }

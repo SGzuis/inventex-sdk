@@ -14,7 +14,7 @@ Métodos do `InventoryBuilder`, todos encadeáveis, chame só os que precisar:
 |---|---|---|---|
 | `name(string)` | `name` | ✅ | Único por workspace |
 | `description(string)` | `description` | | |
-| `location(array)` | `location` | | Pares chave/valor livres (ex.: `['warehouse' => 'CD-01']`) |
+| `location(array)` | `location` | | Valores por campo de localização do workspace: as chaves são as do `location_config` do workspace (ex.: `['branch' => 'Matriz']`). Chave desconhecida → `ValidationException` (422, erro em `location`); a comparação ignora maiúsculas. Workspace sem `location_config` não restringe as chaves. No update, vale o config capturado na criação do inventário (ver [`update.md`](./update.md)) |
 | `date(string)` | `date` | ✅ | Formato `Y-m-d`, não pode ser no passado |
 | `countType(string)` | `count_type` | | Rótulo livre (ex.: "Geral", "Cíclico") |
 | `countingNumber(int)` | `counting_number` | | 1 a 3 rodadas de contagem (padrão do servidor: 1) |

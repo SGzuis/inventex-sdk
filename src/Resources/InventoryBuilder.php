@@ -47,7 +47,7 @@ final class InventoryBuilder
     }
 
     /**
-     * @param  array<string, mixed>  $location
+     * @param  array<string, string>  $location  Chaves do `location_config` do workspace => valor
      */
     public function location(array $location): self
     {
