@@ -31,6 +31,15 @@ class InventoryBuilderTest extends TestCase
         return json_decode((string) $history[0]['request']->getBody(), true);
     }
 
+    public function test_group_name_is_sent_in_the_payload(): void
+    {
+        $payload = $this->sentPayload(static function (InventoryBuilder $builder) {
+            return $builder->name('Leves')->groupName('Operação 11');
+        });
+
+        $this->assertSame('Operação 11', $payload['group_name']);
+    }
+
     public function test_unit_counting_is_sent_under_settings(): void
     {
         $payload = $this->sentPayload(static function (InventoryBuilder $builder) {

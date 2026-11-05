@@ -59,7 +59,7 @@ com o resumo humano-legível da pendência.
 
 Mesmos campos de [`create.md`](./create.md#parâmetros), todos opcionais
 aqui (`sometimes`, não reenvie o que não quer mudar):
-`name`, `description`, `location`, `date`, `count_type`, `counting_number`,
+`name`, `description`, `group_name`, `location`, `date`, `count_type`, `counting_number`,
 `require_full_recount`, `second_total_count`, `show_balance`,
 `allow_multiple_users_per_position`, `interrupt_reverts_position`,
 `variations`, `quality_enabled`, `quality_requires_photo`, `quality_types`,

@@ -47,6 +47,17 @@ final class InventoryBuilder
     }
 
     /**
+     * Agrupa inventários da mesma operação: inventários com o mesmo nome de
+     * grupo podem gerar relatório consolidado. Salvo sem espaços nas pontas.
+     */
+    public function groupName(string $groupName): self
+    {
+        $this->payload['group_name'] = $groupName;
+
+        return $this;
+    }
+
+    /**
      * @param  array<string, string>  $location  Chaves do `location_config` do workspace => valor
      */
     public function location(array $location): self

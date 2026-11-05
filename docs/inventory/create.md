@@ -14,6 +14,7 @@ Métodos do `InventoryBuilder`, todos encadeáveis, chame só os que precisar:
 |---|---|---|---|
 | `name(string)` | `name` | ✅ | Único por workspace |
 | `description(string)` | `description` | | |
+| `groupName(string)` | `group_name` | | Agrupa inventários da mesma operação (mesmo nome = mesmo grupo) para relatório consolidado; salvo sem espaços nas pontas, vazio vira `null`. Devolvido em `attributes.group_name` |
 | `location(array)` | `location` | | Valores por campo de localização do workspace: as chaves são as do `location_config` do workspace (ex.: `['branch' => 'Matriz']`). Chave desconhecida → `ValidationException` (422, erro em `location`); a comparação ignora maiúsculas. Workspace sem `location_config` não restringe as chaves. No update, vale o config capturado na criação do inventário (ver [`update.md`](./update.md)) |
 | `date(string)` | `date` | ✅ | Formato `Y-m-d`, não pode ser no passado |
 | `countType(string)` | `count_type` | | Rótulo livre (ex.: "Geral", "Cíclico") |
