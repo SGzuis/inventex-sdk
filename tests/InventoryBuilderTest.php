@@ -84,8 +84,9 @@ class InventoryBuilderTest extends TestCase
 
     public function test_location_sends_workspace_location_fields_as_is(): void
     {
-        $payload = $this->sentPayload(static fn (InventoryBuilder $builder) => $builder
-            ->name('Inv')->date('2030-01-01')->location(['branch' => 'Matriz']));
+        $payload = $this->sentPayload(static function (InventoryBuilder $builder) {
+            return $builder->name('Inv')->date('2030-01-01')->location(['branch' => 'Matriz']);
+        });
 
         $this->assertSame(['branch' => 'Matriz'], $payload['location']);
     }

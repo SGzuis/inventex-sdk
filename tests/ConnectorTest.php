@@ -139,7 +139,7 @@ class ConnectorTest extends TestCase
         $filePath = tempnam(sys_get_temp_dir(), 'sdk-test-');
         file_put_contents($filePath, 'posicao,produto,estoque');
 
-        $response = $connector->postMultipart('inventories/abc/import', files: ['file' => ['path' => $filePath, 'filename' => 'planilha.xlsx']]);
+        $response = $connector->postMultipart('inventories/abc/import', [], ['file' => ['path' => $filePath, 'filename' => 'planilha.xlsx']]);
         unlink($filePath);
 
         $request = $history[0]['request'];

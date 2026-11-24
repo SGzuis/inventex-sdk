@@ -332,14 +332,17 @@ opcional (`suggest`), necessário apenas se você usar a integração Laravel
 (`InventexServiceProvider`/facade `Inventex`). Em um projeto PHP puro, nada
 do Illuminate é instalado.
 
-**Nota sobre os testes do pacote**: a suíte de testes (`phpunit ^11`) roda em
-PHP 8.2+ por exigência do próprio PHPUnit — isso é uma ferramenta de
-desenvolvimento do SDK, não afeta o requisito de runtime (`php: ^7.2.5 || ^8.0`)
-para quem instala o pacote. O código-fonte evita manualmente qualquer
-sintaxe exclusiva do PHP 8 (validado via `php -l` e lido com atenção arquivo
-por arquivo), mas não há CI rodando de fato sobre um binário PHP 7.2 neste
-momento — se você depende de PHP 7.2/7.3 em produção, vale rodar sua própria
-suíte de smoke test antes de subir.
+**Nota sobre os testes do pacote**: o `composer.json` fixa `config.platform.php`
+em `7.2.5`, então as dependências de desenvolvimento são resolvidas para o
+PHP mínimo suportado (PHPUnit 8.5) e a suíte roda igual em PHP 7.2 e 8.x.
+Para validar num binário PHP 7.2 real:
+
+```bash
+docker run --rm -v "$PWD":/app -w /app php:7.2-cli vendor/bin/phpunit
+```
+
+Os testes também não podem usar sintaxe exclusiva do PHP 8 (argumentos
+nomeados, `fn`, atributos fora de linha própria etc.).
 
 ## Desenvolvimento
 

@@ -8,9 +8,9 @@
             <directory>tests</directory>
         </testsuite>
     </testsuites>
-    <source>
-        <include>
+    <filter>
+        <whitelist>
             <directory>src</directory>
-        </include>
-    </source>
+        </whitelist>
+    </filter>
 </phpunit>
