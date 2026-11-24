@@ -25,6 +25,7 @@ servidor, formato exato de resposta e erros possíveis.
 | Itens do catálogo (lote) | `GET/POST/PUT/DELETE /inventories/{uuid}/items` | [`inventory/items.md`](./inventory/items.md) |
 | Atividades | `GET /inventories/{uuid}/activities` | [`inventory/activities.md`](./inventory/activities.md) |
 | Exportar (Excel/CSV) | `POST /inventories/{uuid}/exports` | [`inventory/export.md`](./inventory/export.md) |
+| Operadores externos (QR code) | `/inventories/{uuid}/operators` | [`inventory/operators.md`](./inventory/operators.md) |
 
 ## Outros tópicos
 

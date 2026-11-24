@@ -228,6 +228,21 @@ $export->status()->get('attributes')['status']; // pending|processing|completed|
 $export->saveTo('/tmp/inventario.csv');          // ou $export->download() para os bytes
 ```
 
+## Operadores externos (QR code)
+
+Exiba o QR de pareamento na sua plataforma, confira o código mostrado no
+celular e aprove — sem ninguém logado no Inventex (detalhes em
+[`docs/inventory/operators.md`](docs/inventory/operators.md)):
+
+```php
+$qr = $inventory->operators()->qrCode();
+echo '<img src="' . $qr->dataUri . '" alt="QR code">';
+
+$inventory->operators()->list();                 // pedidos com device_code
+$inventory->operators()->approve($operatorUuid); // após conferir o código
+$inventory->operators()->revoke($operatorUuid);
+```
+
 ## Endpoints ainda não modelados
 
 Todo objeto `ApiResponse` retornado por um builder é a mesma classe usada

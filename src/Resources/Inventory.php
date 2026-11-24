@@ -14,6 +14,7 @@ use Bootstech\InventexSdk\Http\Connector;
  *
  *   $client->inventories()->find($uuid)->show();
  *   $client->inventories()->find($uuid)->items()->list();
+ *   $client->inventories()->find($uuid)->operators()->qrCode();
  */
 final class Inventory
 {
@@ -101,6 +102,11 @@ final class Inventory
     public function items(): ItemResource
     {
         return new ItemResource($this->connector, $this->uuid);
+    }
+
+    public function operators(): OperatorResource
+    {
+        return new OperatorResource($this->connector, $this->uuid);
     }
 
     private function path(): ApiPath
