@@ -335,10 +335,13 @@ do Illuminate é instalado.
 **Nota sobre os testes do pacote**: o `composer.json` fixa `config.platform.php`
 em `7.2.5`, então as dependências de desenvolvimento são resolvidas para o
 PHP mínimo suportado (PHPUnit 8.5) e a suíte roda igual em PHP 7.2 e 8.x.
-Para validar num binário PHP 7.2 real:
+Para validar em todas as versões suportadas (PHP 7.2 a 8.5, cada uma com as
+dependências que um projeto naquela versão instalaria, mais PHP 7.2 com
+Guzzle 6 e com as dependências mínimas), em containers `php:X-cli`:
 
 ```bash
-docker run --rm -v "$PWD":/app -w /app php:7.2-cli vendor/bin/phpunit
+bin/test-matrix.sh            # todas
+bin/test-matrix.sh 7.2 8.4    # só algumas
 ```
 
 Os testes também não podem usar sintaxe exclusiva do PHP 8 (argumentos
