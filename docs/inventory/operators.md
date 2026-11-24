@@ -46,8 +46,8 @@ código.
 ## Lista
 
 `$operators->list($page = null)` → `GET /inventories/{uuid}/operators`,
-15 por página, mais recentes primeiro. `attributes`: `label` (sistema e
-horário do celular), `device_code`, `status`, `created_at`, `activated_at`,
+15 por página, mais recentes primeiro. `attributes`: `label` (nome que o
+operador informou ao escanear o QR), `device_code`, `status`, `created_at`, `activated_at`,
 `revoked_at`.
 
 ## Aprovar e revogar
