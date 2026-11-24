@@ -84,14 +84,13 @@ final class ApiResponse implements ArrayAccess
 
     /**
      * Sem tipo de retorno de propósito: `mixed` (PHP 8.0+) quebraria o
-     * suporte a PHP 7.2, e `#[ReturnTypeWillChange]` (a alternativa "correta"
-     * no PHP 8.1+) é um atributo, sintaxe também exclusiva do PHP 8 — o
-     * aviso de depreciação em PHP 8.1+ é inofensivo e o trade-off aceito
-     * para manter compatibilidade real com PHP 7.2.
+     * suporte a PHP 7.2. O atributo abaixo silencia o aviso do PHP 8.1+ e,
+     * sozinho na linha, é só um comentário (`#`) para o PHP 7.
      *
      * @param  mixed  $offset
      * @return mixed
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         $data = $this->data();
