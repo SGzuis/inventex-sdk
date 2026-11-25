@@ -72,6 +72,14 @@ final class Inventory
         return $this->connector->put($this->path()->toString(), $data);
     }
 
+    /**
+     * Inicia a contagem (pendente → em andamento), igual ao botão "Iniciar contagem" do app Web.
+     */
+    public function start(): ApiResponse
+    {
+        return $this->update(['status' => 'in_progress']);
+    }
+
     public function delete(): ApiResponse
     {
         return $this->connector->delete($this->path()->toString());

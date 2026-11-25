@@ -20,7 +20,7 @@ servidor, formato exato de resposta e erros possíveis.
 | Criar | `POST /inventories` | [`inventory/create.md`](./inventory/create.md) |
 | Listar | `GET /inventories` | [`inventory/list.md`](./inventory/list.md) |
 | Consultar um | `GET /inventories/{uuid}` | [`inventory/show.md`](./inventory/show.md) |
-| Atualizar (e mudar status) | `PUT /inventories/{uuid}` | [`inventory/update.md`](./inventory/update.md) |
+| Atualizar, iniciar contagem (`start()`) e mudar status | `PUT /inventories/{uuid}` | [`inventory/update.md`](./inventory/update.md) |
 | Excluir | `DELETE /inventories/{uuid}` | [`inventory/delete.md`](./inventory/delete.md) |
 | Itens do catálogo (lote) | `GET/POST/PUT/DELETE /inventories/{uuid}/items` | [`inventory/items.md`](./inventory/items.md) |
 | Atividades | `GET /inventories/{uuid}/activities` | [`inventory/activities.md`](./inventory/activities.md) |

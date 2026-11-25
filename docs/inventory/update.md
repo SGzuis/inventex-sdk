@@ -4,9 +4,20 @@
 
 Requer papel **owner**, **administrator** ou **member** no workspace. Este é
 também o único jeito de **iniciar, concluir, cancelar ou recontar** um
-inventário via API — o SDK não expõe `start()`/`conclude()`/`cancel()` como
-métodos próprios porque a API não tem mais esses endpoints dedicados; tudo
-passa pelo campo `status` deste mesmo `update()`.
+inventário via API — a API não tem endpoints dedicados para isso; tudo passa
+pelo campo `status` deste mesmo `update()`.
+
+## Iniciar contagem — `$inventory->start()`
+
+Atalho para `update(['status' => 'in_progress'])`, equivalente ao botão
+"Iniciar contagem" (▶) do app Web. Só funciona com o inventário `pending`;
+em outro status volta `ValidationException` (422).
+
+```php
+$inventory->start();
+```
+
+Concluir, cancelar e recontar não têm atalho: use `update(['status' => …])`.
 
 ## Trava por status
 

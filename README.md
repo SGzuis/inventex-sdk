@@ -181,12 +181,13 @@ $client->inventories()->list()
 $inventory = $client->inventories()->find($uuid);
 $inventory->show();
 $inventory->update(['name' => 'Novo nome']);
+$inventory->start(); // inicia a contagem (pendente → em andamento)
 $inventory->delete();
 $inventory->activities();
 ```
 
-Início/conclusão/interrupção/cancelamento de contagem, posições e operadores
-externos são operados hoje só pelo app Web — não têm endpoint na API.
+Interrupção de contagem e posições são operadas hoje só pelo app Web — não
+têm endpoint na API.
 
 ## Catálogo de itens
 
